@@ -377,3 +377,16 @@ footer{ padding:12px; text-align:center; color:var(--muted); background:transpar
 
 /* fallback para navegadores que não aceitam `display:none` no ::-webkit-scrollbar */
 .h-list::-webkit-scrollbar { height: 0; width: 0; }
+
+@media screen and (max-width: 1020px){
+  
+}
+
+
+
+
+
+
+
+
+
