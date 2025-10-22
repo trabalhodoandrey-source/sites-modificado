@@ -379,8 +379,13 @@ footer{ padding:12px; text-align:center; color:var(--muted); background:transpar
 .h-list::-webkit-scrollbar { height: 0; width: 0; }
 
 @media screen and (max-width: 1020px){
-  
+
+  /* cabesario */ 
+   .header-toggle, .header-toggle, .app-body {    
+   desplay: none;
+    } 
 }
+
 
 
 
