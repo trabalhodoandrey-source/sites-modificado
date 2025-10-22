@@ -13,82 +13,11 @@
 
   <!-- script UI da loja (arquivo dentro da pasta store-ui.js) -->
   <script src="../store-ui.js/store-ui.js" defer></script>
+</head>
 
-  <!-- HEAD: meta + CSS -->
+<!-- ===== CSS inline solicitado: tamanho/alinhamento da logo ===== -->
   <style>
-    /* Reset simples e box-sizing */
-    *, *::before, *::after { box-sizing: border-box; }
-
-    /* Garante que o corpo não exceda a largura da viewport */
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100%;
-      -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-    }
-
-    /* Container fluido central — adapta a largura ao dispositivo */
-    .site-container {
-      width: 100%;
-      max-width: 1200px; /* largura base do seu design */
-      margin: 0 auto;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-
-    /* Imagens e mídias responsivas */
-    img, picture, video, iframe {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* Evita overflow horizontal em elementos grandes */
-    body { overflow-x: hidden; }
-
-    /* Tipografia escalável: usa clamp para tamanho base responsivo */
-    :root {
-      --fs-base: clamp(14px, 1.2vw + 12px, 18px); /* ajusta entre 14 e 18px */
-    }
-    body { font-size: var(--fs-base); }
-
-    /* Layout flexível para áreas comuns (menu / conteúdo / aside) */
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .col {
-      flex: 1 1 300px; /* mínimo de 300px por coluna, cresce conforme o espaço */
-      min-width: 0;    /* evita overflow por conteúdo longo */
-    }
-
-    /* Exemplo: ajustar cabeçalho e nav em telas menores */
-    header .nav {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    /* Media queries comuns (ajustes finos) */
-    @media (max-width: 1024px) {
-      .site-container { max-width: 960px; padding-left: 12px; padding-right: 12px; }
-    }
-    @media (max-width: 768px) {
-      .site-container { padding-left: 10px; padding-right: 10px; }
-      .row { gap: 12px; }
-      /* transformar certas linhas em coluna no celular */
-      .stack-on-mobile { flex-direction: column; }
-    }
-    @media (max-width: 420px) {
-      :root { --fs-base: 14px; } /* forçar leitura confortável em telas muito pequenas */
-      .site-container { padding-left: 8px; padding-right: 8px; }
-    }
-
-    /* ===== CSS inline solicitado: tamanho/alinhamento da logo ===== */
+    /* wrapper do logo */
     .logo {
       display: flex;
       align-items: center;
@@ -96,6 +25,7 @@
       cursor: pointer;
     }
 
+    /* imagem do logo — ajuste direto aqui se quiser maior/menor */
     .logo-img {
       display: block;
       height: 44px;     /* <--- altura da logo: ajuste conforme desejar (36-56px recomendado) */
@@ -103,12 +33,12 @@
       object-fit: contain;
     }
 
+    /* responsivo: reduz altura em telas muito pequenas */
     @media (max-width: 420px) {
       .logo-img { height: 36px; }
     }
-    /* ========================================================= */
   </style>
-</head>
+  <!-- ========================================================= -->
 
 <body>
   <!-- seu body permanece idêntico ao que você já tinha -->
@@ -236,28 +166,5 @@
       </div>
     </div>
   </div>
-
-  <!-- Antes do </body>: JS opcional (aplica um 'scale' se quiser forçar encaixe) -->
-  <script>
-    /* ---> OPÇÃO DE "Quebra-galho": escala o body proporcionalmente (use só se precisar) */
-    (function() {
-      function ajustarEscala() {
-        const largura = window.innerWidth;
-        const base = 1200; // largura base do seu layout (ajuste se for diferente)
-        const escala = Math.min(largura / base, 1);
-        // aplica escala apenas em telas pequenas, evita zoom em desktop
-        if (largura < base) {
-          document.documentElement.style.transformOrigin = 'top center';
-          document.documentElement.style.transform = 'scale(' + escala + ')';
-          document.documentElement.style.width = (100 / escala) + 'vw'; 
-        } else {
-          document.documentElement.style.transform = '';
-          document.documentElement.style.width = '';
-        }
-      }
-      ajustarEscala();
-      window.addEventListener('resize', ajustarEscala);
-    })();
-  </script>
 </body>
 </html>
