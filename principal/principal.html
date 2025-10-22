@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameVault - Painel Principal</title>
+
+  <!-- applyConfig primeiro (global) -->
+  <script src="../config/applyConfig.js" defer></script>
+  <!-- estilos e script da página -->
+  <link rel="stylesheet" href="principal.css" />
+  <script src="principal.js" defer></script>
+
+  <!-- script UI da loja (arquivo dentro da pasta store-ui.js) -->
+  <script src="../store-ui.js/store-ui.js" defer></script>
+</head>
+
+<!-- ===== CSS inline solicitado: tamanho/alinhamento da logo ===== -->
+  <style>
+    /* wrapper do logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    /* imagem do logo — ajuste direto aqui se quiser maior/menor */
+    .logo-img {
+      display: block;
+      height: 44px;     /* <--- altura da logo: ajuste conforme desejar (36-56px recomendado) */
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* responsivo: reduz altura em telas muito pequenas */
+    @media (max-width: 420px) {
+      .logo-img { height: 36px; }
+    }
+  </style>
+  <!-- ========================================================= -->
+
+<body>
+  <!-- seu body permanece idêntico ao que você já tinha -->
+  <!-- link para acessibilidade -->
+  <a class="skip-link" href="#main-content"
+     style="position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden;">
+     Pular para o conteúdo principal
+  </a>
+
+  <!-- HEADER -->
+  <header class="gv-header" role="banner">
+    
+	<div class="logo" onclick="window.location.href='../entrada/entrada.html'">
+      <img src="../entrada/logo.png" alt="GameVault" class="logo-img">
+      <span class="logo-text">GameVault</span>
+    </div>
+
+    <div class="header-controls">
+      <div class="search-wrap">
+        <input
+          id="principalSearch"
+          type="search"
+          placeholder="Pesquisar jogos (pressione Enter para abrir Biblioteca)"
+          aria-label="Pesquisar jogos">
+      </div>
+
+      <button id="toggleSidebarBtn" class="header-toggle" aria-label="Minimizar barra lateral">☰</button>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <!-- SIDEBAR -->
+    <aside class="sidebar minimized" id="sidebar" role="navigation" aria-label="Menu lateral">
+      <div class="sidebar-content">
+        <nav class="sidebar-tabs" aria-label="Navegação principal">
+          <button class="tab-btn" data-tab="dashboard" data-icon="🏠" type="button" aria-pressed="false">Início</button>
+          <button class="tab-btn" data-tab="biblioteca" data-icon="📚" type="button" aria-pressed="false">Biblioteca</button>
+          <button class="tab-btn" data-tab="perfil" data-icon="👤" type="button" aria-pressed="false">Perfil</button>
+          <button class="tab-btn" data-tab="config" data-icon="⚙️" type="button" aria-pressed="false">Configurações</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <button id="logoutBtn" class="logout-btn" type="button">Sair</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="main-content" class="main-content" role="main">
+      <!-- ... resto do conteúdo (mantive igual ao que você já tinha) ... -->
+      <!-- BIBLIOTECA -->
+      <section id="biblioteca" class="tab-content" aria-labelledby="biblioteca-title">
+        <h2 id="biblioteca-title">Biblioteca</h2>
+        <p>Se estiver vazio aqui, você será redirecionado para a versão completa da biblioteca.</p>
+      </section>
+
+      <!-- outras seções... -->
+
+      <!-- LOJA -->
+      <section id="loja" class="tab-content active" aria-labelledby="loja-title">
+        <h2 id="loja-title">Loja — Destaques</h2>
+
+        <div id="hero" class="hero">
+          <div id="heroCarousel" class="hero-carousel" aria-live="off">
+            <!-- slides serão inseridos pelo store-ui.js -->
+          </div>
+          <button id="heroPrev" class="hero-nav hero-prev" aria-label="Anterior">‹</button>
+          <button id="heroNext" class="hero-nav hero-next" aria-label="Próximo">›</button>
+        </div>
+
+        <!-- listas horizontais... -->
+        <section class="h-section" aria-labelledby="rec-title">
+          <div class="h-header">
+            <h3 id="rec-title">Recomendados para você</h3>
+            <div class="h-controls">
+              <button class="h-prev" data-target="rec-list" aria-label="Scroll anterior">‹</button>
+              <button class="h-next" data-target="rec-list" aria-label="Scroll próximo">›</button>
+            </div>
+          </div>
+          <div id="rec-list" class="h-list" tabindex="0" aria-label="Lista de recomendados"></div>
+        </section>
+
+        <section class="h-section" aria-labelledby="pop-title">
+          <div class="h-header">
+            <h3 id="pop-title">Mais populares</h3>
+            <div class="h-controls">
+              <button class="h-prev" data-target="pop-list" aria-label="Scroll anterior">‹</button>
+              <button class="h-next" data-target="pop-list" aria-label="Scroll próximo">›</button>
+            </div>
+          </div>
+          <div id="pop-list" class="h-list" tabindex="0" aria-label="Lista de populares"></div>
+        </section>
+
+        <section class="h-section" aria-labelledby="sale-title">
+          <div class="h-header">
+            <h3 id="sale-title">Em promoção</h3>
+            <div class="h-controls">
+              <button class="h-prev" data-target="sale-list" aria-label="Scroll anterior">‹</button>
+              <button class="h-next" data-target="sale-list" aria-label="Scroll próximo">›</button>
+            </div>
+          </div>
+          <div id="sale-list" class="h-list" tabindex="0" aria-label="Lista de promoções"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <!-- POPUP -->
+  <div id="gamePopup" class="popup hidden" role="dialog" aria-modal="true"
+       aria-labelledby="popupTitle" aria-describedby="popupDesc">
+    <div class="popup-content" role="document">
+      <button id="closePopup" class="close-popup" aria-label="Fechar">✖</button>
+      <img id="popupImage" class="popup-image" src="" alt="Imagem do jogo" />
+      <h3 id="popupTitle" style="margin:8px 0 4px 0;"></h3>
+      <p id="popupDesc" style="margin:0 0 12px 0;"></p>
+      <div class="platforms" aria-label="Escolha de plataforma">
+        <label><input type="radio" name="platform" value="steam"> Steam</label>
+        <label><input type="radio" name="platform" value="epic"> Epic Games</label>
+        <label><input type="radio" name="platform" value="xbox"> Xbox</label>
+      </div>
+      <div id="popupPrices" class="prices" aria-live="polite" style="margin-bottom:8px;"></div>
+      <div class="popup-actions">
+        <button id="favBtn" class="fav-btn" type="button" aria-pressed="false">⭐ Favoritar</button>
+        <button id="addToLibraryBtn" class="add-btn" type="button" disabled>📚 Adicionar à Biblioteca</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

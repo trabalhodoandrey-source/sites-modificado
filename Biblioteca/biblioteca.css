@@ -1,0 +1,336 @@
+/* biblioteca.css — versão corrigida (cole/replace no arquivo atual) */
+@import url("../principal/principal.css"); /* ajuste o caminho se necessário */
+
+/* -------------------------
+   Variáveis (facilitar ajustes)
+   ------------------------- */
+:root{
+  --bg: #0f1115;
+  --panel: #111218;
+  --muted: #9aa3b2;
+  --accent: #54b1ff;
+  --accent-strong: #2f9be8;
+  --accent-contrast: #071425;
+  --gold: #f0c54a;
+  --card-bg: linear-gradient(180deg,#151626 0%, #0f1115 100%);
+  --radius: 10px;
+  --gap: 14px;
+
+  --sidebar-w: 220px;
+  --sidebar-min-w: 56px;
+  --header-h: 60px;
+}
+
+/* Reset / base */
+*{ box-sizing: border-box; }
+body{
+  margin:0;
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+}
+
+/* -------------------------
+   Layout principal (mantém compatibilidade com principal.css)
+   ------------------------- */
+.main-content{
+  margin-left: calc(var(--sidebar-w) + 30px);
+  padding: 28px;
+  max-width: 1200px;
+  margin-right: 24px;
+  box-sizing: border-box;
+}
+
+/* Sidebar minimizada: reposiciona main corretamente */
+.sidebar.minimized + .main-content,
+.sidebar.minimized ~ .main-content {
+  margin-left: calc(var(--sidebar-min-w) + 30px);
+}
+
+/* Mantém visual da sidebar minimizada (sem "faixa" residual) */
+.sidebar.minimized {
+  width: var(--sidebar-min-w) !important;
+  padding: 6px !important;
+  background: var(--panel) !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Quando minimizado, oculta texto das tab-btn e mostra o ícone via data-icon */
+.sidebar.minimized .tab-btn{
+  justify-content:center;
+  padding:6px 0;
+  font-size:0;
+  height:44px;
+  width:var(--sidebar-min-w);
+  overflow:hidden;
+}
+.sidebar.minimized .tab-btn::before{
+  content: attr(data-icon);
+  display:block;
+  font-size:18px;
+  line-height:1;
+  margin:0;
+}
+.sidebar.minimized .tab-btn.active::before{
+  transform:scale(1.05);
+  background:rgba(255,255,255,0.03);
+  padding:6px;border-radius:8px;
+}
+
+/* -------------------------
+   Favoritos / Grid (mantém aparência) 
+   ------------------------- */
+.fav-strip{ display:flex; gap:12px; overflow:auto; padding:8px 0 12px 0; }
+.fav-strip::-webkit-scrollbar{ height:10px; }
+.fav-strip::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.06); border-radius:6px; }
+
+.fav-card{
+  min-width:220px;
+  width:220px;
+  background:var(--card-bg);
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 6px 18px rgba(0,0,0,0.6);
+  transition: transform .18s, box-shadow .18s;
+}
+.fav-card:hover{ transform: translateY(-6px); box-shadow:0 10px 26px rgba(0,0,0,0.7); }
+.fav-card img{ width:100%; height:120px; object-fit:cover; display:block; }
+.fav-card .fav-body{ padding:10px; }
+.fav-card .title{ font-weight:600; margin:0 0 6px 0; }
+.fav-star{
+  position:absolute; top:10px; right:10px; font-size:20px;
+  color:var(--gold); cursor:pointer;
+  background: rgba(0,0,0,0.25); padding:6px; border-radius:8px;
+  transition: transform .12s ease, color .12s ease, background-color .12s ease;
+}
+.fav-star:hover{ transform: scale(1.15); background: rgba(255,255,255,0.03); color: #fff; }
+
+.games-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:14px;
+}
+.game-card{ background:var(--card-bg); border-radius:10px; overflow:hidden; transition: transform .15s, box-shadow .15s; border:1px solid rgba(255,255,255,0.02); }
+.game-card:hover{ transform:translateY(-6px); box-shadow:0 8px 20px rgba(0,0,0,0.65); }
+.game-card img{ width:100%; height:120px; object-fit:cover; display:block; }
+.game-info{ padding:8px; text-align:center; }
+.game-title{ font-size:0.95rem; margin:0 0 6px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.card-actions{ display:flex; gap:6px; justify-content:center; padding-bottom:10px; }
+
+/* estrela dentro do card */
+.star{ font-size:18px; color:var(--gold); cursor:pointer; background:transparent; border:none; transition: transform .12s ease, color .12s ease; }
+.star:hover{ transform: scale(1.15); color:#ffd966; }
+.star.inactive{ color:#7f8792; }
+
+/* -------------------------
+   Modais, empty notes
+   ------------------------- */
+.modal-bg{ display:none; position:fixed; inset:0; background:rgba(3,6,12,0.6); align-items:center; justify-content:center; z-index:1200; }
+.modal{ background:var(--panel); padding:14px; border-radius:12px; color:inherit; max-width:720px; width:100%; box-shadow:0 10px 40px rgba(0,0,0,0.7); }
+
+.row{ display:flex; flex-direction:column; gap:6px; margin-bottom:8px; }
+.row input, .row textarea{ padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:#0b0c0f; color:inherit; width:100%; }
+.modal-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+
+.empty-note{ color:var(--muted); margin-top:8px; }
+
+/* -------------------------
+   CONTROLS: SELECT (sort) + BOTÃO Adicionar (corrigidos)
+   Coloque este bloco no final do arquivo se estiver apenas adicionando overrides
+   ------------------------- */
+
+/* layout dos controles (se já existir, manter) */
+.actions { display:flex; gap:8px; align-items:center; }
+
+/* SELECT - visual escuro com seta SVG embutida */
+.actions select,
+.actions #sortSelect {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 8px 36px 8px 12px;        /* espaço para a seta no lado direito */
+  border-radius: 8px;
+  background: #0b0c0f url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20'><path fill='%23ffffff' d='M5 7l5 5 5-5z'/></svg>") no-repeat right 10px center;
+  background-size: 12px;
+  border: 1px solid rgba(255,255,255,0.04);
+  color: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: box-shadow .14s ease, border-color .14s ease, transform .12s ease;
+  min-width: 160px;
+}
+
+/* foco visual do select */
+.actions select:focus,
+.actions #sortSelect:focus {
+  outline: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  border-color: rgba(84,177,255,0.18);
+}
+
+/* opções legíveis (alguns navegadores) */
+.actions select option { background: #0b0c0f; color: inherit; }
+
+/* BOTÃO Adicionar (restaura aparência antiga) */
+.actions > #btnAdd,
+.actions .btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: transform .14s ease, box-shadow .14s ease, background-color .12s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* hover do botão */
+.actions > #btnAdd:hover,
+.actions .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  background: rgba(255,255,255,0.02);
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* foco do botão */
+.actions > #btnAdd:focus,
+.actions .btn:focus {
+  outline: 3px solid rgba(84,177,255,0.14);
+  outline-offset: 2px;
+}
+
+/* variante primary (se usar .btn.primary) */
+.actions .btn.primary,
+.actions > #btnAdd.btn.primary {
+  background: var(--accent);
+  border: none;
+  color: var(--accent-contrast);
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(16,32,48,0.45);
+}
+
+/* responsivo: compacta os controles em telas pequenas */
+@media (max-width:720px){
+  .main-content{ padding:12px; margin-left: calc(var(--sidebar-min-w) + 18px); }
+  .fav-card{ min-width:180px; width:180px; }
+  .games-grid{ grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); }
+  .search-wrap input{ width:100%; min-width:unset; }
+  .actions { gap:6px; }
+  .actions select { min-width:120px; padding-right:34px; }
+  .actions > #btnAdd, .actions .btn { padding:6px 8px; font-size:0.9rem; }
+}
+/* Força título e botões a usarem a cor de destaque atual */
+.title, .accent-title {
+  color: var(--accent) !important;
+  transition: color .18s ease;
+}
+button.primary, .primary {
+  background: var(--accent) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  transition: background .18s ease, color .18s ease;
+}
+/* === Fix: forcando uso de variáveis de tema para biblioteca === */
+
+/* garantir background/texto base respeitando applyConfig */
+body {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* header/topbar (título da página) */
+.gv-header, .lib-header, .page-head {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  transition: background .18s ease, color .18s ease;
+}
+.page-head h1 { margin:0; color:var(--text) !important; }
+
+/* títulos e textos dentro de cards/grid/fav (alternância de branco/preto) */
+.fav-card .title,
+.game-title,
+.games-grid h2,
+.favorites-section h2,
+.grid-section h2,
+#favEmpty, #gridEmpty, .empty-note, .game-info p {
+  color: var(--text) !important;
+}
+
+/* botões: garantir que usem --accent / --text conforme a classe */
+.actions > #btnAdd,
+.actions .btn {
+  background: transparent !important;
+  border: 1px solid rgba(0,0,0,0.06);
+  color: var(--text) !important;
+}
+
+/* hover/focus do botão mantendo consistência */
+.actions > #btnAdd:hover,
+.actions .btn:hover {
+  background: rgba(0,0,0,0.04);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+/* quando o botão for variante "primary" (se aplicável) */
+.actions .btn.primary,
+.actions > #btnAdd.btn.primary {
+  background: var(--accent) !important;
+  color: var(--accent-contrast, #071425) !important;
+  border: none;
+}
+
+/* selects / options */
+.actions select,
+.actions #sortSelect {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(0,0,0,0.06);
+  background-image: none; /* remover svg embutido se atrapalhar a cor */
+}
+
+/* para que as options usem o mesmo fundo/texto */
+.actions select option {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+}
+
+/* inputs e textareas (modal e formulários) */
+.row input, .row textarea {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* cards e favs */
+.fav-card, .game-card, .modal {
+  background: var(--card-bg) !important;
+  color: var(--text) !important;
+  border-color: rgba(0,0,0,0.04);
+}
+
+/* ajustes específicos para o modo dark (suaviza bordas e sombras) */
+body.dark .actions select,
+body.dark .actions #sortSelect,
+body.dark .row input, body.dark .row textarea {
+  border: 1px solid rgba(255,255,255,0.04);
+}
+body.dark .actions > #btnAdd,
+body.dark .actions .btn:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+/* garantir que títulos do header (logo/title) também usem accent */
+.logo .brand, .title, .logo, .brand { color: var(--accent) !important; }
+
+/* garantir que .primary global também use a variável */
+button.primary, .primary { background: var(--accent) !important; color: #fff !important; }

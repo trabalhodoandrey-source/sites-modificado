@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Configurações - GameVault</title>
+
+  <!-- estilos e script global de aplicação de config (applyConfig) primeiro -->
+  <link rel="stylesheet" href="config.css">
+  <script src="applyConfig.js" defer></script>
+  <script src="config.js" defer></script>
+</head>
+
+<!-- ===== CSS inline solicitado: tamanho/alinhamento da logo ===== -->
+  <style>
+    /* wrapper do logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    /* imagem do logo — ajuste direto aqui se quiser maior/menor */
+    .logo-img {
+      display: block;
+      height: 44px;     /* <--- altura da logo: ajuste conforme desejar (36-56px recomendado) */
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* responsivo: reduz altura em telas muito pequenas */
+    @media (max-width: 420px) {
+      .logo-img { height: 36px; }
+    }
+  </style>
+  <!-- ========================================================= -->
+
+<body>
+  <header class="topbar">
+  
+    <div class="brand" onclick="window.location.href='../entrada/entrada.html'">
+      <<img src="../entrada/logo.png" alt="GameVault" class="logo-img">
+      <span class="title">GameVault</span>
+    </div>
+
+    <div class="header-controls">
+      <button id="toggleSidebarBtn" class="header-toggle" aria-label="Minimizar barra lateral">☰</button>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <!-- SIDEBAR -->
+    <aside class="sidebar minimized" id="sidebar" role="navigation" aria-label="Navegação principal">
+      <div class="sidebar-content">
+        <nav class="sidebar-tabs" role="navigation" aria-label="Navegação">
+          <button class="tab-btn active" data-tab="dashboard" data-icon="🏠" type="button">Início</button>
+          <button class="tab-btn" data-tab="biblioteca" data-icon="📚" type="button">Biblioteca</button>
+          <button class="tab-btn" data-tab="perfil" data-icon="👤" type="button">Perfil</button>
+          <button class="tab-btn" data-tab="config" data-icon="⚙️" type="button">Configurações</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <button id="logoutBtn" class="logout-btn" type="button">Sair</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="container main-content" id="main-content">
+      <!-- Preferências visuais -->
+      <section class="card">
+        <h3>Preferências visuais</h3>
+        <div class="row">
+          <label>Tema</label>
+          <div class="controls">
+            <label class="switch">
+              <input type="checkbox" id="themeToggle">
+              <span class="slider"></span>
+            </label>
+            <small id="themeLabel">Modo claro</small>
+          </div>
+        </div>
+        <div class="row">
+          <label>Cor de destaque</label>
+          <div class="controls">
+            <input type="color" id="accentColor" value="#6a11cb">
+            <div id="accentPreview" class="accent-preview"></div>
+          </div>
+          <small class="hint">Escolha a cor que será usada em elementos destacados.</small>
+        </div>
+      </section>
+
+      <!-- Notificações -->
+      <section class="card">
+        <h3>Notificações (simulação)</h3>
+        <div class="row">
+          <label>Ativar notificações</label>
+          <div class="controls">
+            <input type="checkbox" id="notifToggle">
+          </div>
+        </div>
+        <div class="row">
+          <label>Exemplo de teste</label>
+          <div class="controls">
+            <button id="testNotifBtn" class="primary">Enviar notificação de teste</button>
+          </div>
+        </div>
+        <small class="hint">Sem servidor: salvamos sua preferência localmente e mostramos um exemplo visual.</small>
+      </section>
+
+      <!-- Gerenciar conta -->
+      <section class="card">
+        <h3>Gerenciar conta</h3>
+        <div class="row">
+          <label>Redefinir configurações</label>
+          <div class="controls">
+            <button id="resetConfigBtn" class="danger">Restaurar padrão</button>
+          </div>
+        </div>
+        <div class="row">
+          <label>Apagar conta</label>
+          <div class="controls">
+            <button id="showDeleteBox" class="danger-outline">Apagar minha conta</button>
+          </div>
+        </div>
+
+        <!-- Caixa de confirmação -->
+        <div id="deleteBox" class="delete-box" style="display:none;">
+          <p>Para apagar sua conta, confirme digitando sua senha:</p>
+          <input type="password" id="confirmDeletePassword" placeholder="Digite sua senha">
+          <div class="delete-actions">
+            <button id="confirmDeleteBtn" class="danger">Confirmar exclusão</button>
+            <button id="cancelDeleteBtn" class="ghost-btn">Cancelar</button>
+          </div>
+          <p id="deleteMsg" class="status"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Snackbar -->
+  <div id="snackbar" class="snackbar" aria-live="polite"></div>
+
+  <footer class="footer">
+    <small>Configurações salvas localmente no navegador (localStorage).</small>
+  </footer>
+</body>
+</html>

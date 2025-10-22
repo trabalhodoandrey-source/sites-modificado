@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saiba Mais - GameVault</title>
+  <link rel="stylesheet" href="saiba_mais.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<!-- ===== CSS inline solicitado: tamanho/alinhamento da logo ===== -->
+  <style>
+    /* wrapper do logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    /* imagem do logo — ajuste direto aqui se quiser maior/menor */
+    .logo-img {
+      display: block;
+      height: 44px;     /* <--- altura da logo: ajuste conforme desejar (36-56px recomendado) */
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* responsivo: reduz altura em telas muito pequenas */
+    @media (max-width: 420px) {
+      .logo-img { height: 36px; }
+    }
+  </style>
+  <!-- ========================================================= -->
+
+<body>
+  <header>
+    <div class="logo" onclick="window.location.href='../entrada/entrada.html'">
+      <img src="../entrada/logo.png" alt="GameVault" class="logo-img">
+      <span class="logo-text">GameVault</span>
+    </div>
+    <nav>
+      <a href="../entrada/entrada.html" class="tab-btn">Voltar</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-title">
+      <h1>Saiba Mais sobre a <span class="brand-highlight">GameVault</span></h1>
+      <p class="page-subtitle">Conheça nossa missão, valores e a equipe por trás da plataforma</p>
+    </div>
+
+    <section class="about-section">
+      <h2 class="section-title">Nossa História</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>A GameVault nasceu da paixão por jogos e da frustração comum entre gamers: a dificuldade de acompanhar promoções e gerenciar bibliotecas de jogos espalhadas por diferentes plataformas.</p>
+          <p>Idealizado em 2023 é Fundada em 2025, nossa plataforma foi desenvolvida para centralizar todas as informações relevantes sobre jogos digitais, oferecendo uma experiência unificada para os jogadores.</p>
+        </div>
+        <div class="about-text">
+          <p>Utilizamos tecnologia de ponta para agregar dados das principais lojas de jogos, garantindo que você tenha acesso às melhores ofertas e informações atualizadas em tempo real.</p>
+          <p>Nossa equipe é composta por desenvolvedores, designers e gamers apaixonados, comprometidos em criar a melhor experiência possível para nossa comunidade.</p>
+        </div>
+      </div>
+
+      <div class="mission-vision">
+        <div class="mission-card">
+          <div class="card-icon">🎯</div>
+          <h3 class="card-title">Missão</h3>
+          <p>Facilitar o acesso e a organização das informações de jogos e promoções das principais plataformas digitais, proporcionando uma experiência centralizada e eficiente para os jogadores.</p>
+        </div>
+        <div class="vision-card">
+          <div class="card-icon">🔭</div>
+          <h3 class="card-title">Visão</h3>
+          <p>Ser a principal central de comparação e gerenciamento pessoal de jogos na nuvem, reconhecida pela qualidade do serviço e pela satisfação da comunidade gamer.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="values-section">
+      <h2 class="section-title">Nossos Valores</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon">💻</div>
+          <h3 class="value-title">Tecnologia Acessível</h3>
+          <p class="value-description">Acreditamos que a tecnologia deve ser democrática e acessível a todos, por isso desenvolvemos uma plataforma intuitiva e de fácil uso.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🔒</div>
+          <h3 class="value-title">Segurança da Informação</h3>
+          <p class="value-description">Priorizamos a proteção dos dados dos nossos usuários, implementando as melhores práticas de segurança em todas as nossas soluções.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">⚡</div>
+          <h3 class="value-title">Praticidade</h3>
+          <p class="value-description">Buscamos sempre simplificar processos complexos, oferecendo soluções que economizam tempo e esforço dos nossos usuários.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="team-section">
+      <h2 class="section-title">Nossa Equipe</h2>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-avatar">👨‍💻</div>
+          <h3 class="member-name">wellisson</h3>
+          <p class="member-role">CEO & Fundador</p>
+          <p class="member-bio">Com mais de 10 anos de experiência no mercado de games, wellisson idealizou a GameVault para resolver um problema que ele mesmo enfrentava como gamer.</p>
+        </div>
+        <div class="team-member">
+          <div class="member-avatar">👨‍🎨</div>
+          <h3 class="member-name">wellisson</h3>
+          <p class="member-role">Diretor de Design</p>
+          <p class="member-bio">wellisson é responsável pela experiência do usuário e interface, garantindo que a GameVault seja não apenas funcional, mas também visualmente atraente.</p>
+        </div>
+        <div class="team-member">
+          <div class="member-avatar">👨‍🔧</div>
+          <h3 class="member-name">pedro gustavo</h3>
+          <p class="member-role">Líder de Desenvolvimento</p>
+          <p class="member-bio">pedro comanda nossa equipe de desenvolvimento, assegurando que a plataforma funcione perfeitamente e esteja sempre evoluindo.</p>
+        </div>
+        <div class="team-member">
+          <div class="member-avatar">🧑</div>
+          <h3 class="member-name">pedro gustavo</h3>
+          <p class="member-role">Gerente de Comunidade</p>
+          <p class="member-bio">pedro é o elo entre a GameVault e nossos usuários, garantindo que suas necessidades e feedbacks sejam sempre considerados.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <h2>Pronto para organizar sua biblioteca de jogos?</h2>
+      <p>Junte-se a milhares de gamers que já descobriram uma nova forma de gerenciar seus jogos favoritos</p>
+      <a href="../cadastro/cadastro.html" class="cta-button">Comece Agora - É Gratuito!</a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 GameVault — conectando jogadores às melhores ofertas digitais.</p>
+      <p class="about-link"><a href="../entrada/entrada.html">Voltar para a página inicial</a></p>
+    </div>
+  </footer>
+
+  <script src="saiba_mais.js"></script>
+</body>
+</html>

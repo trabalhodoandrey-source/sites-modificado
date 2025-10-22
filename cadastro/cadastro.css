@@ -1,0 +1,479 @@
+/* VARIÁVEIS DE CORES - GameVault */
+:root {
+  --primary-black: #121212;
+  --secondary-black: #1e1e1e;
+  --accent-red: #e63946;
+  --accent-purple: #7209b7;
+  --light-purple: #9d4edd;
+  --text-light: #f8f9fa;
+  --text-muted: #adb5bd;
+  --panel-bg: rgba(30, 30, 30, 0.9);
+  --surface-bg: rgba(255, 255, 255, 0.08);
+  --border-color: rgba(255, 255, 255, 0.15);
+  --glow-color: rgba(114, 9, 183, 0.4);
+  --success-color: #2ec4b6;
+  --warning-color: #ff9e00;
+}
+
+/* RESET E CONFIGURAÇÕES GERAIS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-black), var(--secondary-black));
+  color: var(--text-light);
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* EFEITO DE BACKGROUND ANIMADO */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(114, 9, 183, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(230, 57, 70, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(157, 78, 221, 0.1) 0%, transparent 50%);
+  animation: backgroundPulse 20s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes backgroundPulse {
+  0%, 100% { 
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* CARD DE CADASTRO PRINCIPAL */
+.login-card {
+  background: var(--panel-bg);
+  width: 100%;
+  max-width: 480px;
+  border-radius: 24px;
+  padding: 50px 40px;
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px var(--border-color),
+    0 0 40px var(--glow-color);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  animation: cardSlideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-red), var(--light-purple));
+  background-size: 200% 100%;
+  animation: gradientFlow 3s ease infinite;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes gradientFlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* CABEÇALHO DO CARD */
+.login-card h2 {
+  text-align: center;
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 2.4rem;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-red), var(--light-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 4px 20px var(--glow-color);
+  position: relative;
+}
+
+.login-card h2::after {
+  content: '🎮';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  filter: drop-shadow(0 2px 8px var(--glow-color));
+}
+
+/* GRUPOS DE INPUT */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.input-group label {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  font-weight: 500;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-group label::before {
+  content: '▶';
+  font-size: 0.7rem;
+  color: var(--accent-purple);
+  transition: transform 0.3s ease;
+}
+
+.input-group:focus-within label::before {
+  transform: translateX(3px);
+  color: var(--accent-red);
+}
+
+.input-group input {
+  padding: 18px 20px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border-color);
+  background: var(--surface-bg);
+  color: var(--text-light);
+  font-size: 1rem;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 
+    0 0 0 4px rgba(114, 9, 183, 0.15),
+    0 8px 32px rgba(114, 9, 183, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.input-group input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.input-group input:focus::placeholder {
+  opacity: 0.4;
+}
+
+/* INDICADOR DE FORÇA DA SENHA */
+.password-strength {
+  height: 4px;
+  background: var(--surface-bg);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.strength-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-red), var(--warning-color), var(--success-color));
+  border-radius: 2px;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.strength-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* BOTÃO PRINCIPAL */
+.btn {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-red));
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 18px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  font-weight: 600;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 25px var(--glow-color);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 12px 40px var(--glow-color),
+    0 0 0 1px rgba(255,255,255,0.1);
+  background: linear-gradient(135deg, var(--light-purple), var(--accent-red));
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:active {
+  transform: translateY(-2px);
+}
+
+.btn.loading {
+  pointer-events: none;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple));
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* TEXTO E LINKS */
+.small-text {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+.small-text a {
+  color: var(--light-purple);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.small-text a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--light-purple);
+  transition: width 0.3s ease;
+}
+
+.small-text a:hover {
+  color: var(--accent-red);
+  background: rgba(114, 9, 183, 0.1);
+}
+
+.small-text a:hover::after {
+  width: 100%;
+}
+
+/* MENSAGENS DE STATUS */
+.msg {
+  text-align: center;
+  padding: 16px 20px;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  animation: messagePop 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid;
+  line-height: 1.4;
+}
+
+@keyframes messagePop {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.msg.success {
+  background: rgba(46, 196, 182, 0.1);
+  color: var(--success-color);
+  border-color: rgba(46, 196, 182, 0.3);
+  box-shadow: 0 4px 20px rgba(46, 196, 182, 0.2);
+}
+
+.msg.error {
+  background: rgba(230, 57, 70, 0.1);
+  color: var(--accent-red);
+  border-color: rgba(230, 57, 70, 0.3);
+  box-shadow: 0 4px 20px rgba(230, 57, 70, 0.2);
+}
+
+/* ÍCONES DECORATIVOS */
+.decorative-icons {
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.decorative-icons span {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.3;
+  animation: floatIcon 6s ease-in-out infinite;
+}
+
+.decorative-icons span:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.decorative-icons span:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+.decorative-icons span:nth-child(3) { bottom: 30%; left: 15%; animation-delay: 2s; }
+.decorative-icons span:nth-child(4) { bottom: 15%; right: 10%; animation-delay: 3s; }
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.2; }
+  50% { transform: translateY(-20px) rotate(180deg); opacity: 0.4; }
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 520px) {
+  .login-card {
+    margin: 10px;
+    padding: 40px 30px;
+    border-radius: 20px;
+  }
+  
+  .login-card h2 {
+    font-size: 2rem;
+  }
+  
+  .login-card h2::after {
+    position: static;
+    margin-left: 10px;
+    transform: none;
+  }
+  
+  .input-group input {
+    padding: 16px 18px;
+  }
+  
+  .btn {
+    padding: 16px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .login-card {
+    padding: 30px 25px;
+    gap: 24px;
+  }
+  
+  .login-card h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* ANIMAÇÃO DE SUCESSO */
+@keyframes successPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.success-pulse {
+  animation: successPulse 0.6s ease;
+}
+/* Botão de voltar */
+.back-button-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.back-btn {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.back-btn:hover {
+  background: var(--surface-bg);
+  color: var(--text-light);
+  border-color: var(--accent-purple);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(114, 9, 183, 0.2);
+}

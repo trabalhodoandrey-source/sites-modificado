@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameVault - Sua Central de Jogos Digitais</title>
+  <link rel="stylesheet" href="entrada.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="entrada.js" defer></script>
+  
+  <!-- ===== CSS inline solicitado: tamanho/alinhamento da logo ===== -->
+  <style>
+    /* wrapper do logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    /* imagem do logo — ajuste direto aqui se quiser maior/menor */
+    .logo-img {
+      display: block;
+      height: 44px;     /* <--- altura da logo: ajuste conforme desejar (36-56px recomendado) */
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* responsivo: reduz altura em telas muito pequenas */
+    @media (max-width: 420px) {
+      .logo-img { height: 36px; }
+    }
+  </style>
+  <!-- ========================================================= -->
+  
+</head>
+<body>
+  <header>
+    <div class="logo" onclick="mostrarHome()">
+      <img src="logo.png" alt="GameVault" class="logo-img">
+      <span class="logo-text">GameVault</span>
+    </div>
+    <nav>
+      <button id="btnLogin" class="tab-btn">Login</button>
+      <button id="btnCadastro" class="tab-btn primary-btn">Cadastro</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <section id="home" class="tab-content active">
+      <div class="hero-content">
+        <h1>Bem-vindo à <span class="brand-highlight">GameVault</span></h1>
+        <p class="tagline">Sua central de jogos e promoções!</p>
+        
+        <div class="description-container">
+          <p>A GameVault é uma plataforma criada para reunir, em um só lugar,
+          informações, preços e promoções de jogos digitais das principais lojas online, como Steam,
+          Epic Games Store e xbox.</p>
+          <p>Nosso objetivo é oferecer ao jogador praticidade e controle, permitindo que ele acompanhe valores,
+          descubra ofertas e organize seus jogos favoritos sem precisar acessar várias plataformas diferentes.</p>
+        </div>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3>Melhores Preços</h3>
+            <p>Compare preços entre as principais lojas de jogos</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3>Lista Pessoal</h3>
+            <p>Organize seus jogos favoritos em um só lugar</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔔</div>
+            <h3>Alertas de Ofertas</h3>
+            <p>Receba notificações quando seus jogos estiverem em promoção</p>
+          </div>
+        </div>
+        
+        <div class="cta-section">
+          <button class="cta-button" onclick="document.getElementById('btnCadastro').click()">
+            Comece Agora - É Gratuito!
+          </button>
+          <p class="cta-subtext">Junte-se a milhares de gamers que já otimizam sua experiência</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 GameVault — conectando jogadores às melhores ofertas digitais.</p>
+      <p class="about-link"><a href="../saiba_mais/saiba_mais.html">Saiba mais sobre nós</a></p>
+    </div>
+  </footer>
+</body>
+</html>

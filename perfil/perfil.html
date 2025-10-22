@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - GameVault</title>
+
+  <!-- applyConfig global (sempre primeiro) -->
+  <script src="../config/applyConfig.js" defer></script>
+  <link rel="stylesheet" href="../principal/principal.css">
+  <link rel="stylesheet" href="perfil.css">
+  <script src="perfil.js" defer></script>
+  
+  <style>
+    /* Efeitos visuais adicionais */
+    .perfil-container input:focus {
+      transform: translateY(-2px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .btn {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    /* Efeito de pulse para notificações */
+    @keyframes pulse-gentle {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .status-msg:not(:empty) {
+      animation: pulse-gentle 2s ease-in-out infinite, slideUp 0.4s ease;
+    }
+  </style>
+</head>
+
+<!-- ===== CSS inline solicitado: tamanho/alinhamento da logo ===== -->
+  <style>
+    /* wrapper do logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    /* imagem do logo — ajuste direto aqui se quiser maior/menor */
+    .logo-img {
+      display: block;
+      height: 44px;     /* <--- altura da logo: ajuste conforme desejar (36-56px recomendado) */
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* responsivo: reduz altura em telas muito pequenas */
+    @media (max-width: 420px) {
+      .logo-img { height: 36px; }
+    }
+  </style>
+  <!-- ========================================================= -->
+
+<body>
+  <header class="gv-header">
+    
+	<div class="logo" onclick="window.location.href='../entrada/entrada.html'">
+      <img src="../entrada/logo.png" alt="GameVault" class="logo-img">
+      <span class="logo-text">GameVault</span>
+    </div>
+
+    <!-- header-controls (toggle da sidebar) -->
+    <div class="header-controls">
+      <button id="toggleSidebarBtn" class="header-toggle" aria-label="Minimizar barra lateral">☰</button>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <aside class="sidebar minimized" id="sidebar" aria-label="Navegação">
+      <div class="sidebar-content">
+        <nav class="sidebar-tabs" role="navigation" aria-label="Navegação">
+          <button class="tab-btn" data-tab="dashboard" data-icon="🏠" type="button">Início</button>
+          <button class="tab-btn" data-tab="biblioteca" data-icon="📚" type="button">Biblioteca</button>
+          <button class="tab-btn active" data-tab="perfil" data-icon="👤" type="button">Perfil</button>
+          <button class="tab-btn" data-tab="config" data-icon="⚙️" type="button">Configurações</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <button id="logoutBtn" class="logout-btn" type="button">Sair</button>
+        </div>
+      </div>
+    </aside>
+
+    <main id="main-content" class="main-content">
+      <section id="perfil" class="tab-content active">
+        <main class="perfil-container">
+          <h2>Perfil do Usuário</h2>
+          <p id="bemVindo"></p>
+
+          <form id="perfilForm">
+            <label>Nome de usuário:</label>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="text" id="username" readonly>
+              <button type="button" id="editarNomeBtn" class="btn">Editar nome</button>
+            </div>
+
+            <label>E-mail (cadastrado):</label>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="email" id="email" readonly>
+              <button type="button" id="editarEmailBtn" class="btn">Editar e-mail</button>
+            </div>
+
+            <label>Senha atual (para confirmar alterações):</label>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <!-- NÃO preenchemos com a senha armazenada; usuário deve digitar -->
+              <input type="password" id="currentPassword" placeholder="Digite sua senha atual para confirmar" >
+              <label style="font-size:0.9rem;">
+                <input type="checkbox" id="toggleShowPass"> mostrar
+              </label>
+            </div>
+
+            <label>Alterar senha (opcional):</label>
+            <input type="password" id="newPassword" placeholder="Nova senha (opcional)">
+
+            <button type="submit" class="btn primary">Salvar alterações</button>
+          </form>
+
+          <p class="status-msg" id="statusMsg"></p>
+        </main>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 GameVault — Plataforma de gerenciamento de jogos digitais.</p>
+  </footer>
+
+<script>
+  // Efeitos visuais adicionais
+  document.addEventListener('DOMContentLoaded', function() {
+    // Efeito de foco nos inputs
+    const inputs = document.querySelectorAll('.perfil-container input');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement?.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement?.classList.remove('focused');
+      });
+    });
+    
+    // Função para extrair o nome de usuário corretamente
+    function getCurrentUserName() {
+      const loggedUser = localStorage.getItem('loggedUser');
+      
+      if (!loggedUser) return 'Jogador';
+      
+      try {
+        // Tenta como JSON primeiro
+        const userData = JSON.parse(loggedUser);
+        if (userData && userData.username) {
+          return userData.username;
+        }
+      } catch (e) {
+        // Não é JSON, trata como string
+        if (loggedUser.includes('|')) {
+          return loggedUser.split('|')[0]; // Pega parte antes do |
+        }
+        return loggedUser; // Usa a string diretamente
+      }
+      
+      return 'Jogador'; // Fallback
+    }
+    
+    // Efeito de digitação na mensagem de boas-vindas
+    const bemVindo = document.getElementById('bemVindo');
+    if (bemVindo) {
+      const userName = getCurrentUserName();
+      const text = `Bem-vindo de volta, ${userName}! 🎮`;
+      bemVindo.textContent = '';
+      
+      let i = 0;
+      function typeWriter() {
+        if (i < text.length) {
+          bemVindo.textContent += text.charAt(i);
+          i++;
+          setTimeout(typeWriter, 50);
+        }
+      }
+      setTimeout(typeWriter, 500);
+    }
+    
+    // Efeito de loading no submit
+    const form = document.getElementById('perfilForm');
+    const submitBtn = form?.querySelector('.btn.primary');
+    
+    form?.addEventListener('submit', function(e) {
+      if (submitBtn) {
+        submitBtn.classList.add('loading');
+        setTimeout(() => {
+          submitBtn.classList.remove('loading');
+        }, 2000);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

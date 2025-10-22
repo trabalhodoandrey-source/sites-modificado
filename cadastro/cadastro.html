@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro - GameVault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cadastro.css">
+</head>
+<body>
+  <!-- Ícones decorativos flutuantes -->
+  <div class="decorative-icons">
+    <span>🎮</span>
+    <span>🌟</span>
+    <span>⚡</span>
+    <span>🎯</span>
+  </div>
+
+  <div class="login-card">
+    <h2>Cadastro GameVault</h2>
+
+    <div class="msg success" style="display:none;"></div>
+    <div class="msg error" style="display:none;"></div>
+
+    <form id="cadastroForm">
+      <div class="input-group">
+        <label for="username">Nome de Usuário</label>
+        <input type="text" id="username" placeholder="Escolha um nome de usuário único" required>
+      </div>
+
+      <div class="input-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="seu@email.com" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" placeholder="Crie uma senha segura" required>
+        <div class="password-strength">
+          <div class="strength-bar" id="strengthBar"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Criar Conta GameVault</button>
+    </form>
+	
+	<div class="back-button-container">
+  <button type="button" class="btn back-btn" onclick="window.location.href='../entrada/entrada.html'">
+    ← Voltar
+  </button>
+</div>
+
+    <div class="small-text">
+      Já tem uma conta? <a href="../login/login.html">Faça login aqui</a>
+    </div>
+  </div>
+
+  <script src="cadastro.js"></script>
+  
+  <script>
+  // Efeitos visuais para a página de cadastro
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const strengthBar = document.getElementById('strengthBar');
+    const form = document.getElementById('cadastroForm');
+    const btn = form.querySelector('.btn');
+
+    // Verificador de força da senha
+    passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        
+        if (password.length >= 8) strength += 25;
+        if (/[A-Z]/.test(password)) strength += 25;
+        if (/[0-9]/.test(password)) strength += 25;
+        if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+        
+        strengthBar.style.width = strength + '%';
+        
+        // Cor baseada na força
+        if (strength < 50) {
+            strengthBar.style.background = 'linear-gradient(90deg, #e63946, #ff9e00)';
+        } else if (strength < 75) {
+            strengthBar.style.background = 'linear-gradient(90deg, #ff9e00, #2ec4b6)';
+        } else {
+            strengthBar.style.background = 'linear-gradient(90deg, #2ec4b6, #7209b7)';
+        }
+    });
+
+    // Efeito de foco nos inputs
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'translateY(-2px)';
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Feedback visual no submit
+    form.addEventListener('submit', function(e) {
+        btn.classList.add('loading');
+        btn.textContent = 'Criando Conta...';
+        
+        // Simular processamento
+        setTimeout(() => {
+            btn.classList.remove('loading');
+            btn.textContent = 'Criar Conta GameVault';
+        }, 2000);
+    });
+});
+  </script>
+  
+</body>
+</html>

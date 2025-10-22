@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - GameVault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <!-- Efeitos decorativos -->
+  <div class="decorative-corner"></div>
+  <div class="decorative-corner"></div>
+  <div class="decorative-corner"></div>
+  <div class="decorative-corner"></div>
+
+  <div class="login-card">
+    <h2>Login GameVault</h2>
+
+    <div class="msg success" style="display:none;"></div>
+    <div class="msg error" style="display:none;"></div>
+
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="userOrEmail">Usuário ou E-mail</label>
+        <input type="text" id="userOrEmail" placeholder="Digite seu usuário ou e-mail" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" placeholder="Digite sua senha" required>
+      </div>
+
+      <button type="submit" class="btn">Entrar na GameVault</button>
+    </form>
+	
+	<div class="back-button-container">
+  <button type="button" class="btn back-btn" onclick="window.location.href='../entrada/entrada.html'">
+    ← Voltar
+  </button>
+</div>
+
+    <div class="small-text">
+      Não tem conta? <a href="../cadastro/cadastro.html">Cadastre-se agora</a>
+    </div>
+  </div>
+
+  <script>
+    // ================== LOGIN ==================
+    document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const userOrEmail = document.getElementById('userOrEmail').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const msgSuccess = document.querySelector('.msg.success');
+      const msgError = document.querySelector('.msg.error');
+      const btn = document.querySelector('.btn');
+
+      // Efeito de loading no botão
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      // Pegando os usuários cadastrados
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(u =>
+        u.username.toLowerCase() === userOrEmail.toLowerCase() ||
+        u.email.toLowerCase() === userOrEmail.toLowerCase()
+      );
+
+      // Simular delay de rede
+      setTimeout(() => {
+        if (user && user.password === password) {
+          msgSuccess.innerText = `Bem-vindo de volta, ${user.username}! 🎮`;
+          msgSuccess.style.display = "block";
+          msgError.style.display = "none";
+
+          // Salva quem está logado
+          localStorage.setItem("loggedUser", user.username);
+
+          // Redireciona após sucesso
+          setTimeout(() => {
+            window.location.href = "../principal/principal.html";
+          }, 1500);
+        } else {
+          msgError.innerText = "Usuário ou senha incorretos. Tente novamente.";
+          msgError.style.display = "block";
+          msgSuccess.style.display = "none";
+          
+          // Remover loading
+          btn.classList.remove('loading');
+          btn.disabled = false;
+        }
+      }, 1000);
+    });
+
+    // Efeito de foco nos inputs
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+      });
+    });
+  </script>
+</body>
+</html>

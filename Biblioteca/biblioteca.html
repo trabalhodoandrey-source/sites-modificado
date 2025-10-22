@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Biblioteca — GameVault</title>
+  <!-- applyConfig global (sempre primeiro) -->
+  <script src="../config/applyConfig.js" defer></script>
+  <link rel="stylesheet" href="biblioteca.css">
+</head>
+
+<!-- ===== CSS inline solicitado: tamanho/alinhamento da logo ===== -->
+  <style>
+    /* wrapper do logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    /* imagem do logo — ajuste direto aqui se quiser maior/menor */
+    .logo-img {
+      display: block;
+      height: 44px;     /* <--- altura da logo: ajuste conforme desejar (36-56px recomendado) */
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* responsivo: reduz altura em telas muito pequenas */
+    @media (max-width: 420px) {
+      .logo-img { height: 36px; }
+    }
+  </style>
+  <!-- ========================================================= -->
+
+<body>
+  <header class="gv-header lib-header">
+    
+	<div class="logo" onclick="window.location.href='../entrada/entrada.html'">
+      <img src="../entrada/logo.png" alt="GameVault" class="logo-img">
+      <span class="logo-text">GameVault</span>
+    </div>
+
+    <div class="header-controls">
+      <div class="search-wrap">
+        <input id="searchInput" type="search" placeholder="Pesquisar jogos, ex: Minecraft" aria-label="Pesquisar jogos">
+      </div>
+
+      <div class="actions">
+        <select id="sortSelect" aria-label="Ordenar jogos">
+          <option value="fav">Favoritos primeiro</option>
+          <option value="az">Nome A → Z</option>
+          <option value="za">Nome Z → A</option>
+          <option value="recent">Mais recentes</option>
+        </select>
+
+        <button id="btnAdd" class="btn" type="button">Adicionar jogo</button>
+      </div>
+
+      <!-- toggle da sidebar (usado pelo JS) -->
+      <button id="toggleSidebarBtn" class="header-toggle" aria-label="Minimizar barra lateral" type="button">☰</button>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <aside class="sidebar minimized" id="sidebar" role="navigation" aria-label="Navegação">
+      <div class="sidebar-content">
+        <nav class="sidebar-tabs" role="navigation" aria-label="Navegação">
+          <!-- NOTE: Início tem data-tab="dashboard" no seu HTML original — mantive isso -->
+          <button class="tab-btn active" data-tab="dashboard" data-icon="🏠" type="button">Início</button>
+          <button class="tab-btn" data-tab="biblioteca" data-icon="📚" type="button">Biblioteca</button>
+          <button class="tab-btn" data-tab="perfil" data-icon="👤" type="button">Perfil</button>
+          <button class="tab-btn" data-tab="config" data-icon="⚙️" type="button">Configurações</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <button id="logoutBtn" class="logout-btn" type="button">Sair</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="main-content">
+      <section id="dashboard" class="tab-content">
+        <h2 id="userDisplay">Bem-vindo!</h2>
+        <p>Painel inicial — informações rápidas.</p>
+      </section>
+
+      <section id="biblioteca" class="tab-content active">
+        <header class="page-head">
+          <h1>Biblioteca</h1>
+        </header>
+
+        <!-- FAVORITOS: carrossel horizontal -->
+        <section class="favorites-section" aria-label="Favoritos">
+          <h2>Favoritos</h2>
+          <div class="fav-strip" id="favStrip" tabindex="0" aria-live="polite"></div>
+          <p id="favEmpty" class="empty-note">Nenhum favorito — marque a estrela em um jogo para destacar aqui.</p>
+        </section>
+
+        <!-- GRID: todos os jogos -->
+        <section class="grid-section" aria-label="Todos os jogos">
+          <h2>Todos os jogos</h2>
+          <div id="gamesGrid" class="games-grid" role="list"></div>
+          <p id="gridEmpty" class="empty-note">Nenhum jogo na biblioteca. Use "Adicionar jogo" para começar.</p>
+        </section>
+      </section>
+
+      <section id="perfil" class="tab-content">
+        <h2>Perfil</h2>
+        <p>Será redirecionado para /perfil/perfil.html quando clicar em Perfil.</p>
+      </section>
+
+      <section id="config" class="tab-content">
+        <h2>Configurações</h2>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal de adicionar/editar -->
+  <div id="modalBg" class="modal-bg" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Adicionar jogo</h3>
+      <label class="row"><span>Nome</span><input id="fTitle" type="text" /></label>
+      <label class="row"><span>URL da capa</span><input id="fCover" type="url" placeholder="https://..." /></label>
+      <label class="row"><span>Descrição</span><textarea id="fDesc" rows="4" placeholder="Opcional"></textarea></label>
+      <div class="modal-actions">
+        <button id="btnSave" class="btn primary" type="button">Salvar</button>
+        <button id="btnCancel" class="btn" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal detalhes -->
+  <div id="detailBg" class="modal-bg" aria-hidden="true">
+    <div class="modal detail-modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <h3 id="detailTitle">Detalhes</h3>
+      <div class="detail-body">
+        <img id="detailCover" alt="" />
+        <div class="detail-info">
+          <h4 id="detailName"></h4>
+          <p id="detailDesc"></p>
+          <div class="detail-actions">
+            <button id="detailFav" class="btn" type="button">Favoritar</button>
+            <button id="detailLaunch" class="btn primary" type="button">Abrir (simulação)</button>
+            <button id="detailClose" class="btn" type="button">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- script da biblioteca -->
+  <script src="biblioteca.js" defer></script>
+</body>
+</html>
