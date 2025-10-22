@@ -1,397 +1,91 @@
-/* principal.css - adaptado para usar variáveis do applyConfig.js */
 :root{
-  /* valores padrão — applyConfig.js sobrescreve quando necessário */
-  --bg: #0f1115;
-  --panel: #111218;
-  --muted: #9aa3b2;
-  --accent: #54b1ff;
-  --gold: #f0c54a;
-  --card-bg: linear-gradient(180deg,#151626 0%, #0f1115 100%);
-  --radius: 10px;
-
-  --sidebar-w:220px;
-  --sidebar-min-w:56px;
-  --header-h:60px;
-}
-
-/* reset */
-*{ box-sizing:border-box; }
-body{
-  margin:0;
-  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text, #e6eef6);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  min-height:100vh;
-}
-
-/* header: usa var(--surface) por padrão (respeita tema claro) */
-.gv-header {
-  position: sticky;
-  top: 0;
-  z-index: 1100;
-  height: var(--header-h);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 18px;
-  background: var(--surface);                  /* <-- usa variável do tema */
-  border-bottom: 1px solid rgba(0,0,0,0.04);   /* leve separador em claro */
-  box-shadow: var(--shadow);
-  transition: background .18s ease, border-color .18s ease;
-}
-
-/* no modo dark, pode aplicar o gradient escuro (opcional) */
-body.dark .gv-header {
-  background: linear-gradient(90deg, rgba(2,6,14,0.6), rgba(6,9,24,0.4));
-  border-bottom: 1px solid rgba(255,255,255,0.03);
-}
-
-.logo { font-weight:700; font-size:1.1rem; color:var(--accent); display:flex; align-items:center; gap:8px; }
-.header-controls{ margin-left:auto; display:flex; align-items:center; gap:12px;}
-
-/* search */
-.search-wrap input{
-  padding:10px 12px;
-  border-radius:8px;
-  border:1px solid rgba(255,255,255,0.04);
-  background: rgba(0,0,0,0.25);
-  color:inherit;
-  min-width:260px;
-}
-.search-wrap input:focus{
-  outline:none;
-  box-shadow:0 6px 18px rgba(0,0,0,0.6);
-  border-color: var(--accent);
-}
-
-/* header toggle */
-.header-toggle{
-  background:#ff4d4d;
-  color:white;
-  border-radius:6px;
-  padding:8px 10px;
-  border:none;
-  cursor:pointer;
-}
-.header-toggle:hover{ background:#ff6666 }
-
- /* layout app */
-.app-body{ display:flex; gap:18px; align-items:flex-start; }
-
-/* sidebar */
-.sidebar{
-  width:var(--sidebar-w);
-  background:var(--panel);
-  color:inherit;
-  transition: width .18s ease, padding .18s ease;
-  overflow:hidden;
-  border-radius:10px;
-  flex-shrink:0;
-  padding:12px;
-  position:fixed;
-  top:var(--header-h);
-  left:12px;
-  bottom:12px;
+bottom:12px;
 }
 .sidebar .sidebar-content{ display:flex; flex-direction:column; height:100%; }
 .sidebar .sidebar-tabs{ display:flex; flex-direction:column; gap:8px; margin-bottom:10px;}
-.tab-btn{
-  background:transparent;border:none;color:var(--muted);padding:10px;border-radius:8px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:0.95rem;
-}
+.tab-btn{ background:transparent;border:none;color:var(--muted);padding:10px;border-radius:8px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:0.95rem; }
 .tab-btn.active, .tab-btn:hover{ background:rgba(255,255,255,0.03); color:var(--text); }
 
-/* minimized */
+
 .sidebar.minimized{
-  width:var(--sidebar-min-w) !important;
-  padding:6px !important;
-  background:transparent;
-  box-shadow:none;
-  border:none;
+width:var(--sidebar-min-w) !important;
+padding:6px !important;
+background:transparent;
+box-shadow:none;
+border:none;
 }
 .sidebar.minimized .sidebar-content { padding:4px; }
 .sidebar.minimized .tab-btn{ justify-content:center; padding:25px 0; font-size:0; height:44px; width:var(--sidebar-min-w); }
 .sidebar.minimized .tab-btn::before{ content: attr(data-icon); display:block; font-size:18px; line-height:1; margin:0; }
 .sidebar.minimized .tab-btn.active::before{ transform:scale(1.05); background:rgba(255,255,255,0.03); padding:6px; border-radius:8px; }
 
-/* sidebar bottom */
-.sidebar-bottom{ margin-top:auto; padding-top:8px; }
-.logout-btn{
-  background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:8px;cursor:pointer;width:100%;
+
+/* overlay mode for mobile */
+.sidebar.overlay {
+position: fixed;
+left: 0;
+top: 0;
+bottom: 0;
+width: 100%;
+max-width: 320px;
+transform: translateX(-110%);
+opacity: 0;
+background: var(--panel);
+margin: 0;
+padding: 18px;
+z-index: 2200;
+border-radius: 0 8px 8px 0;
 }
+.sidebar.overlay.open {
+transform: translateX(0);
+opacity: 1;
+}
+
+
+/* backdrop when overlay open */
+.sidebar-backdrop {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.45);
+z-index: 2000;
+display: none;
+}
+.sidebar-backdrop.open { display: block; }
+
+
+.sidebar-bottom{ margin-top:auto; padding-top:8px; }
+.logout-btn{ background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:8px;cursor:pointer;width:100%; }
 .logout-btn:hover{ background:rgba(255,255,255,0.03); color:var(--text); }
 
-/* main content */
-.main-content{ margin-left: calc(var(--sidebar-w) + 30px); padding:28px; flex:1; }
+
+.main-content{ margin-left: calc(var(--sidebar-w) + 30px); padding:28px; flex:1; transition: margin-left .18s ease; }
 .sidebar.minimized + .main-content, .sidebar.minimized ~ .main-content { margin-left: calc(var(--sidebar-min-w) + 30px); }
 
-/* cards rápidos */
+
 .quick-cards{ display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-top:16px;}
 .card{ background:var(--card-bg); border-radius:10px; padding:14px; box-shadow:0 6px 18px rgba(0,0,0,0.6); }
-.card h3{ margin:0 0 8px 0; color:var(--accent); }
-.card p{ margin:0 0 12px 0; color:var(--muted); }
 
-/* tab content */
+
 .tab-content{ display:none; }
 .tab-content.active{ display:block; }
 
-/* footer */
+
 footer{ padding:12px; text-align:center; color:var(--muted); background:transparent; }
 
-/* responsivo */
+
 @media (max-width:900px){
-  .main-content{ margin-left: calc(var(--sidebar-min-w) + 20px); padding:18px; }
-  .search-wrap input{ min-width:160px; }
-}
-
-/* ======== GRID DE JOGOS E POPUP (certificado) ======== */
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.game-card, .store-card {
-  background: var(--card-bg);
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.game-card:hover, .store-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.game-card img, .store-card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-}
-
-.game-card .info, .store-card .info {
-  padding: 10px;
-}
-
-.game-card h4, .store-card h4 {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--text);
-}
-
-.game-card p, .store-card p {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-/* popup */
-.popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  padding: 20px;
-}
-
-.popup.hidden { display: none; }
-
-.popup-content {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 20px;
-  width: 420px;
-  max-width: 100%;
-  position: relative;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
-  color: var(--text);
-  text-align: left;
-}
-
-.close-popup {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  color: var(--text);
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.popup-image { width: 100%; border-radius: 8px; margin-bottom: 12px; display:block; }
-
-.popup-price-line { margin-bottom: 6px; color: var(--text); }
-
-.platforms { display:flex; gap:10px; margin: 12px 0; justify-content:flex-start; }
-.platforms label { cursor:pointer; font-size:0.95rem; color: var(--text); }
-
-.prices { margin-bottom: 12px; color: var(--accent); }
-
-.popup-actions { display:flex; gap:10px; justify-content:flex-end; margin-top: 10px; }
-.add-btn, .fav-btn {
-  padding: 10px 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-.add-btn { background: #2ecc71; color: #fff; }
-.add-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.fav-btn { background: #f1c40f; color: #222; }
-.fav-btn.active { background: #ffe047; }
-
-/* =========================
-   Loja — listas horizontais
-   ========================= */
-
-/* limita a largura visível das listas e centraliza
-   (ajuste 1100px conforme desejar) */
-.h-section {
-  display: block; /* mantém estrutura */
-}
-.h-section .h-list {
-  max-width: 1100px;      /* largura visível do carrossel */
-  margin: 0 auto;         /* centraliza no conteúdo */
-  overflow-x: auto;       /* continua permitindo scroll programático */
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 12px 4px;
-  gap: 16px;
-  display: flex;
-}
-
-/* cada card não encolhe e serve como item para snap */
-.store-card {
-  scroll-snap-align: start;
-  flex: 0 0 auto;
-  /* garante que o cartão mantenha largura consistente */
-  min-width: 200px;
-  max-width: 240px;
-}
-
-/* esconde a barra de rolagem visual (estética) */
-.h-list::-webkit-scrollbar { height: 8px; display: none; }
-.h-list { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* posicionamento dos botões: coloco-os relativamente ao header da seção
-   para ficarem próximos ao conteúdo (ajuste se quiser outra posição) */
-.h-section .h-controls { display:flex; gap:8px; align-items:center; justify-content:flex-end; margin-bottom:8px; }
-.h-prev, .h-next {
-  width:42px; height:42px; border-radius:8px; border:none; cursor:pointer;
-  background: rgba(255,255,255,0.03); color:var(--text,#fff); font-size:1.2rem;
-  display:inline-flex; align-items:center; justify-content:center;
-}
-.h-prev:focus, .h-next:focus { outline:2px solid var(--accent, #54b1ff); }
-
-/* =========================
-   HERO / BANNER CAROUSEL
-   ========================= */
-
-/* container do hero - centralizado e limitado em largura (igual às listas) */
-.hero {
-  max-width: 1100px;
-  margin: 14px auto 28px;
-  position: relative;
-  padding: 0 24px; /* espaço lateral para os botões quando em desktop */
-}
-
-/* área do carousel - mostra apenas 1 slide por vez com snap */
-#heroCarousel {
-  display: flex;
-  gap: 20px;
-  overflow-x: hidden; /* esconder overflow para mostrar 1 slide por vez */
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  align-items: stretch;
-  width: 100%;
-  min-height: 220px;
-}
-
-/* cada destaque ocupa 100% do hero (1 slide visível) */
-.featured-game-card {
-  scroll-snap-align: center;
-  flex: 0 0 100%;
-  max-width: 100%;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-
-/* se você quiser um limite interno do conteúdo do card, ajuste aqui */
-.featured-game-card > div:first-child { /* imagem/topo */ }
-.featured-game-card > div:last-child { /* área de info/painel */ }
-
-/* botões do hero (previous / next) */
-.hero-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width:48px;
-  height:48px;
-  border-radius:10px;
-  border:none;
-  background: rgba(0,0,0,0.5);
-  color: var(--text);
-  font-size:1.6rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-  z-index: 1200;
-}
-.hero-nav:hover { background: rgba(0,0,0,0.65); transform: translateY(-50%) scale(1.03); }
-.hero-prev { left: 6px; }
-.hero-next { right: 6px; }
-.hero-nav:focus { outline: 2px solid var(--accent); }
-
-/* responsividade: hero e listas em telas pequenas */
-@media (max-width: 1100px){
-  .h-section .h-list, .hero { max-width: calc(100% - 32px); padding: 0 16px; }
-  .hero-nav { width:42px; height:42px; font-size:1.4rem; }
-}
-
-/* mobile: reduzir paddings e garantir 1 slide por vez corretamente */
-@media (max-width: 600px){
-  .hero { padding: 0 10px; margin-bottom: 18px; }
-  .h-section .h-list { padding: 8px 6px; gap: 12px; }
-  .store-card { min-width: 160px; max-width: 200px; }
-  .h-prev, .h-next { width:36px; height:36px; font-size:1.1rem; }
-}
-
-/* acessibilidade visual: estados desabilitados (quando necessário via JS) */
-.h-prev[disabled], .h-next[disabled], .hero-nav[disabled] {
-  opacity: 0.35; cursor: not-allowed;
-}
-
-/* fallback para navegadores que não aceitam `display:none` no ::-webkit-scrollbar */
-.h-list::-webkit-scrollbar { height: 0; width: 0; }
-
-@media screen and (max-width: 1020px){
-
-  /* cabesario */ 
-   .header-toggle, .header-toggle, .app-body {    
-   desplay: none;
-    } 
+.main-content{ margin-left: calc(var(--sidebar-min-w) + 20px); padding:18px; }
+.search-wrap input{ min-width:160px; }
 }
 
 
+.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; }
 
 
+.game-card, .store-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
 
 
+.game-card img, .store-card img { width: 100%; height: 120px; object-fit: cover; }
 
 
-
-
+.popup { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 200
